@@ -1,0 +1,34 @@
+---
+title: "How Many Movies Pass the Bechdel Test Each Year?"
+output: github_document
+---
+
+```{r setup, include=FALSE, results='hide'}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Based on data from [**FiveThirtyEight.**](https://fivethirtyeight.com/features/the-dollar-and-cents-case-against-hollywoods-exclusion-of-women/)
+
+Named for the cartoonist Alison Bechdel, the Bechdel Test is a measure of the representation of women in media. In order for a film to pass the test, Bechdel had three criteria: 1) there must be at least two named women in the film, 2) they must have a conversation with each other at some point, and 3) that conversation can't be about a male character. 
+
+This data set analyzes 1,794 films released between 1970 and 2013. 
+```{r, echo=FALSE, results='hide', message=FALSE}
+library(ggplot2)
+library(dplyr)
+library(fivethirtyeight)
+
+bechdel_edits <- bechdel %>% 
+  group_by(year, binary) %>% 
+  summarize(count = n())
+  
+```
+
+
+
+```{r pressure, echo=FALSE}
+ggplot(data=bechdel_edits, mapping=aes(x=year, y=count, color=binary)) +
+  geom_line() +
+  labs(x="Year", y="Number of movies") +
+  ggtitle("Movies and the Bechdel Test Over Time")
+```
+
